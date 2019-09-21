@@ -11,6 +11,43 @@ public class Explorer : MonoBehaviour
 
     void Update()
     {
+        HandleInput();
+        UpdateShader();
+    }
+
+    private void HandleInput()
+    {
+        if (Input.GetKey(KeyCode.KeypadPlus))
+        {
+            scale *= .99f;
+        }
+        else if (Input.GetKey(KeyCode.KeypadMinus))
+        {
+            scale *= 1.01f;
+        }
+
+        var moveSpeed = scale / 100;
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            position.x += moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            position.x -= moveSpeed;
+        }
+        
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            position.y += moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            position.y -= moveSpeed;
+        }
+    }
+    
+    private void UpdateShader()
+    {
         float ar = (float) Screen.width / Screen.height;
 
         float scaleX = scale;
