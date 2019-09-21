@@ -4,6 +4,7 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Area ("Area", vector) = (0, 0, 4, 4)
+        _MaxIter ("Max Iterations", Float) = 512
     }
     SubShader
     {
@@ -39,6 +40,7 @@
             }
 
             float4 _Area;
+            float _MaxIter;
             sampler2D _MainTex;
 
             fixed4 frag (v2f i) : SV_Target
@@ -47,12 +49,19 @@
                 float2 z;
                 float iter;
                 
-                for (iter = 0; iter < 255; iter++) {
+                for (iter = 0; iter < _MaxIter; iter++) {
                     z = float2(z.x*z.x - z.y*z.y, 2*z.x*z.y) + c;
                     if (length(z) > 2) break;
                 }
                 
-                return iter / 255;
+                float4 color = 0;
+				if (iter < _MaxIter){
+					color.r = (sin(0.05 * iter + .7853) + 1) / 2;
+                    color.g = (sin(0.06 * iter + .5890) + 1) / 2;
+                    color.b = (sin(0.07 * iter + .5) + 1) / 2;
+				}
+
+                return color;
             }
             ENDCG
         }
