@@ -3,6 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Area ("Area", vector) = (0, 0, 4, 4)
     }
     SubShader
     {
@@ -37,11 +38,12 @@
                 return o;
             }
 
+            float4 _Area;
             sampler2D _MainTex;
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 c = i.uv;
+                float2 c = _Area.xy + (i.uv - .5) * _Area.zw;
                 float2 z;
                 float iter;
                 
